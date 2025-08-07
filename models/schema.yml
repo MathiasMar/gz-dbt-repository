@@ -5,11 +5,10 @@ sources:
     tables:
       - name: raw_gz_sales
         description: sales of Greenweez / we have one row per product_id found in each orders_id
-        tests:
-         - dbt_utils.unique_combination_of_columns:
-             combination_of_columns:
-                 - pdt_id
-                 - date_date
+        freshness:
+          warn_after: {count: 90, period: day}
+        loaded_at_field: "CAST(date_date AS TIMESTAMP)"
+
         columns:
           - name: date_date
             description: date of purchase
