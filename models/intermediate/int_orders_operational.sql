@@ -5,7 +5,9 @@ ROUND((margin + shipping_fee - logcost - ship_cost), 2) AS operational_margin,
 quantity,
 revenue,
 purchase_cost,
-margin
+margin,
+shipping_fee,
+logcost,
 from
 {{ref("int_orders_margin")}}
 JOIN
