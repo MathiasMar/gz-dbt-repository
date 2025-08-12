@@ -277,3 +277,24 @@ models:
         description: number of impressions
       - name: click
         description: number of clicks
+
+  - name: int_campaigns_days
+    description: int_campaigns by day
+    columns:
+      - name: date
+        tests:
+            - unique
+            - not_null
+        description: date
+      - name: nb_paid_source
+        description: number of advertising sources
+      - name: nb_campaign_key
+        description: number of campaign ids
+      - name: nb_campaign_name
+        description: number of campaign names
+      - name: ads_cost
+        description: cost of the add
+      - name: impression
+        description: number of impressions
+      - name: click
+        description: number of clicks
