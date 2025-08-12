@@ -234,8 +234,8 @@ models:
         description: paid by the company
         tests:
           - not_null
-  - name: finance_days
 
+  - name: finance_days
     description: mart model grouped by day for stakeholders
     columns:
       - name: date_date
@@ -256,3 +256,24 @@ models:
         description: paid by the customer
       - name: nb_prod_sold
         description: number of products sold that day
+  
+  - name: int_campaigns
+    description: unification of all campaigns tables (facebook, criteo, bing, adwords)
+    columns:
+      - name: date_date
+        tests:
+            - unique
+            - not_null
+        description: date
+      - name: paid_source
+        description: source of advertising
+      - name: campaign_key
+        description: id of the campaign
+      - name: campaign_name
+        description: name of the campaign
+      - name: ads_cost
+        description: cost of the add
+      - name: impression
+        description: number of impressions
+      - name: click
+        description: number of clicks
