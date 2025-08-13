@@ -8,6 +8,7 @@ purchase_cost,
 margin,
 shipping_fee,
 logcost,
+ship_cost
 from
 {{ref("int_orders_margin")}}
 JOIN

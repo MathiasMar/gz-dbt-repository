@@ -8,7 +8,6 @@ sources:
         freshness:
           warn_after: {count: 90, period: day}
         loaded_at_field: "CAST(date_date AS TIMESTAMP)"
-
         columns:
           - name: date_date
             description: date of purchase
@@ -48,6 +47,92 @@ sources:
             description: cost associated with logging operations
           - name: ship_cost
             description: cost associated with product shipping
+      - name: adwords
+        identifier: raw_gz_adwords
+        description: adwords advertising campaign
+        columns:
+          - name: date_date
+            tests:
+                - unique
+                - not_null
+            description: date
+          - name: paid_source
+            description: source of advertising
+          - name: campaign_key
+            description: id of the campaign
+          - name: camPGN_name
+            description: name of the campaign
+          - name: ads_cost
+            description: cost of the add
+          - name: impression
+            description: number of impressions
+          - name: click
+            description: number of clicks
+      - name: bing
+        identifier: raw_gz_bing
+        description: bing advertising campaign
+        columns:
+          - name: date_date
+            tests:
+                - unique
+                - not_null
+            description: date
+          - name: paid_source
+            description: source of advertising
+          - name: campaign_key
+            description: id of the campaign
+          - name: camPGN_name
+            description: name of the campaign
+          - name: ads_cost
+            description: cost of the add
+          - name: impression
+            description: number of impressions
+          - name: click
+            description: number of clicks
+      - name: criteo
+        identifier: raw_gz_criteo
+        description: criteo advertising campaign
+        columns:
+          - name: date_date
+            tests:
+                - unique
+                - not_null
+            description: date
+          - name: paid_source
+            description: source of advertising
+          - name: campaign_key
+            description: id of the campaign
+          - name: camPGN_name
+            description: name of the campaign
+          - name: ads_cost
+            description: cost of the add
+          - name: impression
+            description: number of impressions
+          - name: click
+            description: number of clicks
+      - name: facebook
+        identifier: raw_gz_facebook
+        description: facebook advertising campaign
+        columns:
+          - name: date_date
+            tests:
+                - unique
+                - not_null
+            description: date
+          - name: paid_source
+            description: source of advertising
+          - name: campaign_key
+            description: id of the campaign
+          - name: camPGN_name
+            description: name of the campaign
+          - name: ads_cost
+            description: cost of the add
+          - name: impression
+            description: number of impressions
+          - name: click
+            description: number of clicks
+            
+          
 
 models:
   - name: int_sales_margin
@@ -149,11 +234,56 @@ models:
         description: paid by the company
         tests:
           - not_null
-  - name: finance_days
-
-    description: mart model grouped by day for stakeholders
+  
+  - name: int_campaigns
+    description: unification of all campaigns tables (facebook, criteo, bing, adwords)
     columns:
       - name: date_date
+        tests:
+            - unique
+            - not_null
+        description: date
+      - name: paid_source
+        description: source of advertising
+      - name: campaign_key
+        description: id of the campaign
+      - name: campaign_name
+        description: name of the campaign
+      - name: ads_cost
+        description: cost of the add
+      - name: impression
+        description: number of impressions
+      - name: click
+        description: number of clicks
+
+  - name: int_campaigns_days
+    description: int_campaigns by day
+    columns:
+      - name: date
+        tests:
+            - unique
+            - not_null
+        description: date
+      - name: nb_paid_source
+        description: number of advertising sources
+      - name: nb_campaign_key
+        description: number of campaign ids
+      - name: nb_campaign_name
+        description: number of campaign names
+      - name: ads_cost
+        description: cost of the add
+      - name: impression
+        description: number of impressions
+      - name: click
+        description: number of clicks
+
+  - name: finance_days
+    description: mart model grouped by day for stakeholders
+    columns:
+      - name: date
+        tests:
+              - unique
+              - not_null
         description: date
       - name: nb_transactions
         description: number of transactions for that day 
@@ -171,3 +301,35 @@ models:
         description: paid by the customer
       - name: nb_prod_sold
         description: number of products sold that day
+  - name: finance_campaigns_day
+    description: join between int_campaigns_day and finance_days to calculate ads_margin
+    columns:
+      - name: date
+        tests:
+              - unique
+              - not_null
+        description: date
+      - name: ads_margin
+        description: number of transactions for that day 
+      - name: avg_basket
+        description: avg revenue per day
+      - name: operational_margin
+        description: margin + shipping_fee - logcost - ship_cost
+      - name: ads_cost
+        description: cost of advertisment
+      - name: ads_impression
+        description: number of impressions
+      - name: ads_clicks
+        description:  number of clicks
+      - name: nb_prod_sold
+        description: number of products sold that day
+      - name: revenue
+        description: income
+      - name: purchase_cost
+        description: cost of product purchase
+      - name: shipping_fee
+        description: cost of shipping paid by the client
+      - name: log_cost
+        description: cost of logistics
+      - name: ship_cost
+        description: cost of shipping
