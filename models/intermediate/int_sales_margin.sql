@@ -5,7 +5,8 @@ date_date,
 revenue,
 quantity,
 (quantity * purchase_price) AS purchase_cost,
-ROUND((revenue - (quantity * purchase_price)), 2) AS margin
+ROUND((revenue - (quantity * purchase_price)), 2) AS margin,
+{{ margin_percent(revenue, quantity * purchase_price) }} as margin_pct
 from
 {{ref("stg_gz_raw_data__raw_gz_sales")}}
 JOIN
